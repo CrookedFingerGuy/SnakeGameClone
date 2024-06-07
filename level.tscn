@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=3 uid="uid://dwfm16n7mkam6"]
+
+[ext_resource type="Script" path="res://level.cs" id="1_cksu8"]
+[ext_resource type="Texture2D" uid="uid://bjwqlaeyw8vbm" path="res://EmptyRoom.png" id="1_kjdk7"]
+[ext_resource type="PackedScene" uid="uid://dkdq2r50srtfp" path="res://snake.tscn" id="2_biepr"]
+[ext_resource type="PackedScene" uid="uid://dio8va0bukg8a" path="res://Fruit.tscn" id="3_ib54v"]
+[ext_resource type="Script" path="res://Fruit.cs" id="4_2wjy3"]
+[ext_resource type="PackedScene" uid="uid://dmiwwwb3g4h6n" path="res://ui.tscn" id="5_c4xo0"]
+[ext_resource type="Script" path="res://ui.cs" id="7_lmh20"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_okyif"]
+size = Vector2(44, 597)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jp7i7"]
+size = Vector2(1101, 39)
+
+[node name="Level" type="Node2D"]
+position = Vector2(0, -1)
+script = ExtResource("1_cksu8")
+
+[node name="EmptyRoom" type="Sprite2D" parent="."]
+position = Vector2(-1, 33.4672)
+scale = Vector2(0.600521, 0.535246)
+texture = ExtResource("1_kjdk7")
+offset = Vector2(960, 540)
+metadata/_edit_lock_ = true
+
+[node name="Snake" parent="." instance=ExtResource("2_biepr")]
+position = Vector2(336, 372)
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="Fruit" parent="." instance=ExtResource("3_ib54v")]
+position = Vector2(1104, 564)
+script = ExtResource("4_2wjy3")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="LeftWall" type="Area2D" parent="Walls"]
+position = Vector2(7, 273)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/LeftWall"]
+position = Vector2(12, 46.5)
+shape = SubResource("RectangleShape2D_okyif")
+
+[node name="RightWall" type="Area2D" parent="Walls"]
+position = Vector2(14, 546)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/RightWall"]
+position = Vector2(1153, -228)
+shape = SubResource("RectangleShape2D_okyif")
+
+[node name="TopWall" type="Area2D" parent="Walls"]
+position = Vector2(14, 546)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/TopWall"]
+position = Vector2(578, -490)
+shape = SubResource("RectangleShape2D_jp7i7")
+
+[node name="BottomWall" type="Area2D" parent="Walls"]
+position = Vector2(28, 1092)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/BottomWall"]
+position = Vector2(563, -467)
+shape = SubResource("RectangleShape2D_jp7i7")
+
+[node name="UI" parent="." instance=ExtResource("5_c4xo0")]
+script = ExtResource("7_lmh20")
+
+[connection signal="timeout" from="Timer" to="Snake" method="_on_timer_timeout"]
+[connection signal="body_entered" from="Walls/LeftWall" to="." method="_on_left_wall_body_entered"]
+[connection signal="body_entered" from="Walls/RightWall" to="." method="_on_left_wall_body_entered"]
+[connection signal="body_entered" from="Walls/TopWall" to="." method="_on_left_wall_body_entered"]
+[connection signal="body_entered" from="Walls/BottomWall" to="." method="_on_left_wall_body_entered"]

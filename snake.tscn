@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://dkdq2r50srtfp"]
+
+[ext_resource type="Script" path="res://snake.cs" id="1_1xd4e"]
+[ext_resource type="Texture2D" uid="uid://djtvmkgfc84m7" path="res://SnakeHead.png" id="1_lahwh"]
+[ext_resource type="Texture2D" uid="uid://bctv5juph2r2j" path="res://snakeBody.png" id="2_olpdm"]
+[ext_resource type="Script" path="res://BodySegment.cs" id="3_1gtod"]
+[ext_resource type="Texture2D" uid="uid://67lfytlmhn62" path="res://snakeTail.png" id="4_m075p"]
+[ext_resource type="Script" path="res://SnakeTail.cs" id="5_qpj1h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h6ryu"]
+size = Vector2(126, 98)
+
+[node name="Snake" type="Node2D"]
+script = ExtResource("1_1xd4e")
+
+[node name="SnakeHead" type="Node2D" parent="."]
+scale = Vector2(0.5, 0.5)
+
+[node name="SnakeHead" type="Sprite2D" parent="SnakeHead"]
+texture = ExtResource("1_lahwh")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="SnakeHead"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SnakeHead/CharacterBody2D"]
+position = Vector2(-1, -1)
+shape = SubResource("RectangleShape2D_h6ryu")
+
+[node name="BodySegment1" type="Node2D" parent="."]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("3_1gtod")
+
+[node name="Sprite2D" type="Sprite2D" parent="BodySegment1"]
+texture = ExtResource("2_olpdm")
+
+[node name="SnakeTail" type="Node2D" parent="."]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("5_qpj1h")
+
+[node name="Sprite2D" type="Sprite2D" parent="SnakeTail"]
+texture = ExtResource("4_m075p")
+offset = Vector2(0.5, 0.5)
